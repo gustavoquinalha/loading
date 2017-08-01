@@ -1,5 +1,5 @@
 {
-  "name": "element-loading",
+  "name": "helpy-clinic-loading",
   "version": "1.0.0",
   "description": "A loading component for Vue.js.",
   "keywords": [
@@ -8,7 +8,7 @@
     "component"
   ],
   "main": "./lib/index.js",
-  "repository": "https://github.com/ElemeFE/element/tree/master/packages/loading",
+  "repository": "https://github.com/HelpySolutions/loading",
   "author": "elemefe",
   "license": "MIT",
   "dependencies": {}

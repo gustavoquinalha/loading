@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import { addClass, removeClass, getStyle } from 'element-ui/src/utils/dom';
+import {addClass, removeClass, getStyle} from 'element-ui/src/utils/dom';
 let Mask = Vue.extend(require('./loading.vue'));
 
-exports.install = Vue => {
+export default function install(Vue) {
   if (Vue.prototype.$isServer) return;
   let toggleLoading = (el, binding) => {
     if (binding.value) {
@@ -20,7 +20,7 @@ exports.install = Vue => {
             el.originalPosition = document.body.style.position;
 
             ['top', 'left'].forEach(property => {
-              let scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
+              let scroll             = property === 'top' ? 'scrollTop' : 'scrollLeft';
               el.maskStyle[property] = el.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] + 'px';
             });
             ['height', 'width'].forEach(property => {
@@ -51,7 +51,7 @@ exports.install = Vue => {
       }
     }
   };
-  let insertDom = (parent, el, binding) => {
+  let insertDom     = (parent, el, binding) => {
     if (!el.domVisible && getStyle(el, 'display') !== 'none' && getStyle(el, 'visibility') !== 'hidden') {
       Object.keys(el.maskStyle).forEach(property => {
         el.mask.style[property] = el.maskStyle[property];
@@ -74,29 +74,29 @@ exports.install = Vue => {
   };
 
   Vue.directive('loading', {
-    bind: function(el, binding) {
-      let mask = new Mask({
+    bind: function (el, binding) {
+      let mask     = new Mask({
         el: document.createElement('div'),
         data: {
           text: el.getAttribute('element-loading-text'),
           fullscreen: !!binding.modifiers.fullscreen
         }
       });
-      el.instance = mask;
-      el.mask = mask.$el;
+      el.instance  = mask;
+      el.mask      = mask.$el;
       el.maskStyle = {};
 
       toggleLoading(el, binding);
     },
 
-    update: function(el, binding) {
+    update: function (el, binding) {
       el.instance.setText(el.getAttribute('element-loading-text'));
       if (binding.oldValue !== binding.value) {
         toggleLoading(el, binding);
       }
     },
 
-    unbind: function(el, binding) {
+    unbind: function (el, binding) {
       if (el.domInserted) {
         if (binding.modifiers.fullscreen || binding.modifiers.body) {
           document.body.removeChild(el.mask);
@@ -108,4 +108,6 @@ exports.install = Vue => {
       }
     }
   });
-};
+}
+
+
